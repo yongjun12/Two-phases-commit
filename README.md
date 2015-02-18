@@ -10,7 +10,17 @@ TODO: Describe the installation process
 
 ## Usage
 
-TODO: Write usage instructions
+##### Server Side
+1. Fetch IP address of server.
+   - MAC users: /sbin/ifconfig en0 | grep 'inet '| cut -d ' ' -f 2
+   - Linux users: $ /sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'
+2. Run bash command: python server.py <ip_address> 
+3. Now the server is up
+
+##### Client Side
+1. 
+
+
 
 ## Contributing
 
