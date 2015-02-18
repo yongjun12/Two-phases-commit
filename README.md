@@ -1,9 +1,6 @@
-# Two-phases-commit
-
-
 <snippet>
-  <content><![CDATA[
-# ${1:Two-phases-commit}
+  <content>
+# Two-phases-commit
 
 The first project in Distributed Computing: Two phases commit
 
@@ -26,6 +23,5 @@ TODO: Write usage instructions
 ## License
 
 TODO: Write license
-]]></content>
   <tabTrigger>readme</tabTrigger>
 </snippet>
