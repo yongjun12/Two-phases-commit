@@ -78,6 +78,6 @@ In this project, fabfile will be run on server machine for simplicity.
 
 ## License
 
-TODO: Write license
+Produce by Yongjun
   <tabTrigger>readme</tabTrigger>
 </snippet>
