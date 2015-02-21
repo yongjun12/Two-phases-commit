@@ -66,7 +66,6 @@ In this project, fabfile will be run on server machine for simplicity.
    - setup: distribute file mention above to separate client machines
    - getKey: run get function of client.py
    - putKey: run put function of client.py
-   - 
    
 ## Error Handling
    - Log Table:
