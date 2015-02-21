@@ -35,7 +35,9 @@ In this project, fabfile will be run on server machine for simplicity.
 6. Run command `fab setup` to put the python files to clients and create tables in sqlite.
 7. Now everything is up and running! Start your exploration!
 
-## Structure
+## Code Structure
+
+##### The project use built-in library xmlrpclib as an interface for server-client communication. Each machine, both server and multiple clients, has an independent database where key value and process status are logged. SQLite is introduced as the its advantage of being light-weight and easy installation. For better streamlining, fabric command-line tool is also injected in the project, simplifying the execution of python files in distributed machines.
 
 1. Server.py
    - log: keep track of operation conducted on info table
@@ -64,7 +66,10 @@ In this project, fabfile will be run on server machine for simplicity.
    - setup: distribute file mention above to separate client machines
    - getKey: run get function of client.py
    - putKey: run put function of client.py
+   - 
    
+## Error Handling
+
 
 ## License
 
