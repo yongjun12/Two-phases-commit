@@ -35,13 +35,36 @@ In this project, fabfile will be run on server machine for simplicity.
 6. Run command `fab setup` to put the python files to clients and create tables in sqlite.
 7. Now everything is up and running! Start your exploration!
 
-## Contributing
+## Structure
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+1. Server.py
+   - log: keep track of operation conducted on info table
+   - get: fetch key value
+   - put: update key value
+   - delete: delete key 
+   - main: create server and set up port for incoming events, register above functions
+   
+2. client.py
+   - log: keep track of status on info table
+   - get: fetch key value from distant server, if no value is received, delete(update) key in info table
+   - put: update key value in both server info and client info table
+   - delete: delete key in both server info and client info table
+
+3. ClientSetUp.py
+   - fetch local ip address and store it in `client_add`, which is imported later by client.py
+   - build connection to server 
+   - connect to local db `ex` and receive the cursor
+
+4. DbSetUp.sh
+   - create log and info table if not exist
+
+5. fabfile.py
+   - configure server/client address and appoint roles
+   - identify login key and ssh_configure file
+   - setup: distribute file mention above to separate client machines
+   - getKey: run get function of client.py
+   - putKey: run put function of client.py
+   
 
 ## License
 
