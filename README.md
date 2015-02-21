@@ -79,5 +79,4 @@ In this project, fabfile will be run on server machine for simplicity.
 ## License
 
 Produce by Yongjun
-  <tabTrigger>readme</tabTrigger>
-</snippet>
+
