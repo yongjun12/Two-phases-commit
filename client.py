@@ -1,6 +1,9 @@
+import subprocess
+import sys
 import xmlrpclib
 import sqlite3
 import time
+from ClientSetUp import *
 
 
 def log(operate_id, server):
@@ -9,41 +12,92 @@ def log(operate_id, server):
 
 def get():
 	log(1, proxy_add)
-
-	while(1) {
-	
 	try:
+		print "df"
 		value = proxy.get(client_add)
-		print "get value: %s " % value
+		print value
+		if(value is False): 
+			print "Key is deleted!"
+		else:
+			print "get value: %s " % value
 	except xmlrpclib.ProtocolError as err:
 		print "Error occur:"
 		print "Error code: %d" % err.errcode
 		print "Error message: %s" % err.message
-		if(++error_retry < 5):
-			time.sleep(5)
-		else:
-			return false
-	}
+		return False
+	if( value is False ):
+		c.execute("delete from info where key='key'")
+		print "delete key"
+	else:
+		c.execute("insert or replace into info values('key', '%s')" % value)
+		print "update value %s" % value
 
-	c.execute("update info set value = '%s' " % value)
 	log(2, proxy_add)
 	print "get value success"
-	proxy.log(2, client_add)
+	try:
+		proxy.log(2, client_add)
+	except xmlrpclib.ProtocolError as err:
+		print "Error occur:"
+		print "Error code: %d" % err.errcode
+		print "Error message: %s" % err.message
+		return False
+
+	return True
 
 
 def put(new_val):
 	log(3, proxy_add)
+	try:
+		proxy.put(new_val, client_add)
+		print "put value: %s " % new_val
+	except xmlrpclib.ProtocolError as err:
+		print "Error occur:"
+		print "Error code: %d" % err.errcode
+		print "Error message: %s" % err.message
+		return False
+	c.execute("insert or replace into info values('key','%s')" % new_val)
+	conn.commit()
+
+	log(4, proxy_add)
+	print "put value success"
+
+	try:
+		proxy.log(4, client_add, 2)
+	except xmlrpclib.ProtocolError as err:
+		print "Error occur:"
+		print "Error code: %d" % err.errcode
+		print "Error message: %s" % err.message
+		return False
+
+	return True
+
+def delete():
+	log(3, proxy_add)
+
+	try:
+		delVal = proxy.delete(client_add)
+		print "delete value: %s" % delVal
+	except xmlrpclib.ProtocolError as err:
+		print "Error occur:"
+		print "Error code: %d" % err.errcode
+		print "Error message: %s" % err.message
+		return False
+
+	c.execute("delete from info where key = 'key'")
+	conn.commit()
+
+	log(4, proxy_add)
+	print "delete value succes on client machine"
+
+	try:
+		proxy.log(4, client_add, 2)
+	except xmlrpclib.ProtocolError as err:
+		print "Error occur:"
+		print "Error code: %d" % err.errcode
+		print "Error message: %s" % err.message
+		return False
+
+	return True
 
 
 
-
-proxy = xmlrpclib.ServerProxy("http://134.87.178.254:8000/", allow_none = True)
-proxy_add = "134.87.178.254:8000"
-client_add = "client A"
-# print "3 is even: %s" % str(proxy.is_even(3))
-# print "100 is even: %s" % str(proxy.is_even(100))
-
-conn = sqlite3.connect('ex')
-
-c = conn.cursor() 
-get()
