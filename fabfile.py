@@ -2,43 +2,46 @@ from fabric.api import env, roles, run, put, cd, parallel
 import subprocess
 from sys import platform
 
+# This project set server nodes as the machine that runs fabfile by default
+# Extract local IP 
+
 cmd = "/sbin/ifconfig en0 | grep 'inet '| cut -d ' ' -f 2"
 server_add = subprocess.check_output(cmd, shell="True")
-s = server_add.rstrip('\n')
+server_add = server_add.rstrip('\n')
 
 env.hosts = [
-	s,
-	# "slice320.pcvm3-1.instageni.metrodatacenter.com",
- #    "slice320.pcvm2-2.instageni.rnoc.gatech.edu",
+	server_add,
 ]
 
 env.roledefs.update({
-	'server': [s],
-	# 'client': [ "slice320.pcvm3-1.instageni.metrodatacenter.com",
-	# 			"slice320.pcvm2-2.instageni.rnoc.gatech.edu"],
-	'client': ["192.168.22.138", s],
-	'localClient': [s]
+	'server': [server_add],
+	'client': ["192.168.22.138", server_add],
 })
 
+# Set authentication key and config file as you wish
 # env.use_ssh_config = True
-# env.ssh_config_path = "./ssh-config"
-# env.key_filename="./id_rsa"
+# env.ssh_config_path = <config_file>
+# env.key_filename = <key_file>
 
 
 def hello():
-	run("echo 'ddd'")
+	run("echo 'Hello world'")
 
-# default user: yongjun
+# default dir: home directory
+# put function only executes if files don't exist 
+# To update, delete existing files before calling put funtion
+# Delete files by uncommenting the first line
+ 
 @roles('client')
 def setup():
 	if platform == "linux" or platform == "linux2":
-		run('rm client.py && rm ClientSetUp.py && rm ./DbSetUp.sh')
+		# run('rm client.py && rm ClientSetUp.py && rm ./DbSetUp.sh')
 		put('./client.py')
 		put('./ClientSetUp.py')
 		put('./DbSetUp.sh')
 		run('chmod u+x ./DbSetUp.sh; ./DbSetUp.sh')
 	elif platform =="darwin":
-		run('rm client.py && rm ClientSetUp.py && rm ./DbSetUp.sh')
+		# run('rm client.py && rm ClientSetUp.py && rm ./DbSetUp.sh')
 		put('./client.py')
 		put('./ClientSetUp.py')
 		put('./DbSetUp.sh')
@@ -53,3 +56,7 @@ def getKey():
 @roles('client')
 def putKey():
 	run("python -c \"import client; client.put(5)\"")
+
+@roles('client')
+def delKey():
+	run("python -c \"import client; client.delete()\"")

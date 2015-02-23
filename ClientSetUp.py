@@ -1,3 +1,7 @@
+# This file is to extract IP address based on platforms 
+# and build two-way communication to server
+# All variable defined here is to be imported by client.py
+
 import xmlrpclib
 import sqlite3
 import subprocess
@@ -15,15 +19,11 @@ elif platform =="darwin":
 
 client_add = subprocess.check_output(cmd, shell="True")
 client_add = client_add.rstrip('\n')
-# print str(client_add)
-# if( len(argv) != 2 ):
-# 	print "Usage: ClientSetUp.py <server_address>"
-# 	exit(0)
+
+# Please input server ip by hand
 proxy_ip = "192.168.0.113"
 proxy_add = "http://" + proxy_ip + ":8000/" 
+
 proxy = xmlrpclib.ServerProxy(proxy_add, allow_none = True)
 print "Connecting to server %s on 8000" % proxy_ip
 
-
-
-# get(proxy_add)
