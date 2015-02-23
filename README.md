@@ -23,17 +23,24 @@ In this project, fabfile will be run on server machine for simplicity.
     ```
       proxy_id = <server_ip>
     ```
-4. vim fabfile.py, set env.host to server ip and all client ip
-    ` env.hosts = [<server_ip>, <client1_ip>, ..., <clientN_ip>] `
-5. vim fabfile.py, define server/client roles
+4. Run ServerDbSetup.sh in current work directory
+  ```
+    chmod a+x ServerDbSetup.sh
+    ./ServerDbSetup.sh
+  ```
+5. vim fabfile.py, set env.host to server ip and all client ip
+    ```
+      env.hosts = [<server_ip>, <client1_ip>, ..., <clientN_ip>] 
+    ```
+6. vim fabfile.py, define server/client roles
    ```
        env.roledefs.update({
        'server': [<server_ip>],
        'client': [<client1_ip>, ..., <clientN_ip>]
        }) 
     ```
-6. Run command `fab setup` to put the python files to clients and create tables in sqlite.
-7. Now everything is up and running! Start your exploration!
+7. Run command `fab setup` to put the python files to clients and create tables in sqlite.
+8. Now everything is up and running! Start your exploration!
 
 ## Code Structure
 
