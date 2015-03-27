@@ -1,5 +1,5 @@
-<snippet>
-  <content>
+# For final project, please go to https://github.com/yongjun12/2PC
+
 # Two-phases-commit
 
 The first project in Distributed Computing: Two phases commit
